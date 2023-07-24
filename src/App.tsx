@@ -1,4 +1,4 @@
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 import './App.css'
 
 function App()
@@ -16,10 +16,12 @@ function App()
       //    intervalo: 1,
       // },
       {
-         dinero: 6000,
-         intervalo: 15,
+         dinero: 13000,
+         intervalo: 30,
       },
    ]);
+
+   const [gananciaFinal, setGananciaFinal] = useState(0);
 
    function getConceptos()
    {
@@ -40,43 +42,31 @@ function App()
    function getGananciaDiariaTotal()
    {
       let total = 0;
-      let totalExtra = 0;
-      
-      conceptos.forEach(({dinero}: Concepto) => {
-         for(let i = 1; i < dias; i++)
-         {
-            totalExtra += (totalExtra + dinero) * 0.09 / 365;
+      let totalExtra : number;
 
-            if(dinero == 6000)
+      conceptos.forEach(({dinero, intervalo}: Concepto) => {
+         for(let j = 0; j < Math.ceil(dias / intervalo); j++)
+         {
+            totalExtra = 0;
+            let diasIntervalo = dias - (j * intervalo);
+
+            for(let i = 1; i < diasIntervalo; i++)
             {
-               console.log(totalExtra);
+               totalExtra += (totalExtra + (dinero)) * 0.09 / 365;
             }
+
+            total += totalExtra;
          }
-
-         console.log("--------------------");
-
-         total += totalExtra;
       });
+
+      setGananciaFinal(total);
 
       return <h3>{total.toFixed(2)}</h3>
    }
 
-   function getGananciaDiariaFinal()
-   {
-      let total = 0;
-      let totalExtra = 0;
-
-      conceptos.forEach(({dinero}: Concepto) => {
-         for(let i = 1; i < dias; i++)
-         {
-            totalExtra += (totalExtra + dinero) * 0.09 / 365;
-         }
-
-         total += totalExtra;
-      });
-
-      return <h3>{total.toFixed(2)}</h3>
-   }
+   // useEffect(() => {
+   //    console.log(gananciaFinal);
+   // }, [gananciaFinal]);
 
    return (
       <div style={{display: 'flex', flexDirection: 'column'}}>
@@ -107,7 +97,7 @@ function App()
             </div>
 
             <div className="">
-               <h2>Total por multiplicador:</h2>
+               <h2>Total ganancia Nu:</h2>
 
                {getGananciaDiariaTotal()}
             </div>
@@ -115,7 +105,7 @@ function App()
             <div className="">
                <h2>Ganancia diaria final:</h2>
 
-               {getGananciaDiariaFinal()}
+               <h3>{gananciaFinal.toFixed(2)}</h3>
             </div>
          </div>
       </div>
