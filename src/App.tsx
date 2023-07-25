@@ -68,10 +68,13 @@ function App()
 
    function agregarConcepto()
    {
-      setConceptos([...conceptos, {
-         dinero: Number(conceptoNuevo.dinero),
-         intervalo: Number(conceptoNuevo.intervalo),
-      }]);
+      if(conceptoNuevo.dinero != undefined && conceptoNuevo.intervalo != undefined && conceptoNuevo.dinero > 0 && conceptoNuevo.intervalo > 0)
+      {
+         setConceptos([...conceptos, {
+            dinero: Number(conceptoNuevo.dinero),
+            intervalo: Number(conceptoNuevo.intervalo),
+         }]);
+      }
    }
 
    function eliminarConcepto(id: string)
@@ -85,7 +88,7 @@ function App()
             <div style={{display: 'flex', gap: 20, alignItems: 'center'}}>
                <h1 style={{verticalAlign: 'center'}}>Dias: </h1>
 
-               <input onChange={(e) => setDias(Number(e.target.value))} value={dias} style={{
+               <input onChange={(e) => setDias(Number(e.target.value) >= 0 ? Number(e.target.value) : 0)} value={dias} style={{
                      width: 100,
                      height: 50,
                      fontSize: 40,
