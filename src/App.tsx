@@ -125,7 +125,7 @@ function App()
             </div>
          </div>
 
-         <div style={{display: 'flex', flexDirection: 'column', backgroundColor: '#303030', borderRadius: 10, padding: '10px'}}>
+         <div style={{display: 'flex', flexDirection: 'column', backgroundColor: '#161616', borderRadius: 10, padding: '10px'}}>
             <h3>Agregar concepto</h3>
             
             <div style={{display: 'flex', gap: 20, alignItems: 'center', justifyContent: 'center'}}>
