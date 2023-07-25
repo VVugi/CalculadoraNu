@@ -126,36 +126,36 @@ function App()
          </div>
 
          <div style={{display: 'flex', flexDirection: 'column', backgroundColor: 'black', borderRadius: 10, padding: '10px'}}>
-               <h3>Agregar concepto</h3>
-               
-               <div style={{display: 'flex', gap: 20, alignItems: 'center', justifyContent: 'center'}}>
-                  <h3>Cantidad: </h3>
-                  <input id="dinero" value={conceptoNuevo.dinero} onChange={(e) => manageConcepto(e)} style={{
-                        width: 110,
-                        height: 30,
-                        fontSize: 30,
-                        textAlign: 'center',
-                     }}
-                  >
-                  </input>
-               </div>
-
-               <div style={{display: 'flex', gap: 20, alignItems: 'center', justifyContent: 'center'}}>
-                  <h3>Cada cuantos dias: </h3>
-                  <input id="intervalo" value={conceptoNuevo.intervalo} onChange={(e) => manageConcepto(e)} style={{
-                        width: 80,
-                        height: 30,
-                        fontSize: 30,
-                        textAlign: 'center',
-                     }}
-                  >
-                  </input>
-               </div>
-               
-               <br></br>
-               
-               <button style={{backgroundColor: 'grey'}} onClick={() => agregarConcepto()}>Guardar</button>
+            <h3>Agregar concepto</h3>
+            
+            <div style={{display: 'flex', gap: 20, alignItems: 'center', justifyContent: 'center'}}>
+               <h3>Cantidad: </h3>
+               <input id="dinero" value={conceptoNuevo.dinero} onChange={(e) => manageConcepto(e)} style={{
+                     width: 110,
+                     height: 30,
+                     fontSize: 30,
+                     textAlign: 'center',
+                  }}
+               >
+               </input>
             </div>
+
+            <div style={{display: 'flex', gap: 20, alignItems: 'center', justifyContent: 'center'}}>
+               <h3>Cada cuantos dias: </h3>
+               <input id="intervalo" value={conceptoNuevo.intervalo} onChange={(e) => manageConcepto(e)} style={{
+                     width: 80,
+                     height: 30,
+                     fontSize: 30,
+                     textAlign: 'center',
+                  }}
+               >
+               </input>
+            </div>
+            
+            <br></br>
+            
+            <button style={{backgroundColor: 'grey'}} onClick={() => agregarConcepto()}>Guardar</button>
+         </div>
       </div>
    );
 }
