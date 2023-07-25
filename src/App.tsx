@@ -69,8 +69,8 @@ function App()
    function agregarConcepto()
    {
       setConceptos([...conceptos, {
-         dinero: conceptoNuevo.dinero,
-         intervalo: conceptoNuevo.intervalo,
+         dinero: Number(conceptoNuevo.dinero),
+         intervalo: Number(conceptoNuevo.intervalo),
       }]);
    }
 
