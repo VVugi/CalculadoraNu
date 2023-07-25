@@ -11,37 +11,31 @@ function App()
    const [dias, setDias] = useState(30);
 
    const [conceptos, setConceptos] = useState([
-      // {
-      //    dinero: 300,
-      //    intervalo: 1,
-      // },
       {
-         dinero: 13000,
-         intervalo: 30,
+         dinero: 5000,
+         intervalo: 15,
       },
    ]);
 
-   const [gananciaFinal, setGananciaFinal] = useState(0);
+   const [conceptoNuevo, setConceptoNuevo] = useState({
+      dinero: 0,
+      intervalo: 0,
+   });
 
-   function getConceptos()
-   {
-      return conceptos.map(({dinero, intervalo}: Concepto) => <h3>{dinero} cada {intervalo} dias</h3>)
-   }
+   const [totalConceptos, setTotalConceptos] = useState(0);
+   const [gananciaDiariaFinal, setGananciaDiariaFinal] = useState(0);
+   const [gananciaDiariaTotal, setGananciaDiariaTotal] = useState(0);
 
-   function getTotal()
-   {
-      let total = 0;
+   useEffect(() => {
+      let totalConceptos = 0;
+      let totalGanancia = 0;
       
       conceptos.forEach(({dinero, intervalo}: Concepto) => {
-         total += (dinero * Math.ceil(dias / intervalo));
+         totalConceptos += (dinero * Math.ceil(dias / intervalo));
       });
 
-      return <h3>{total.toFixed(2)}</h3>
-   }
+      setTotalConceptos(totalConceptos);
 
-   function getGananciaDiariaTotal()
-   {
-      let total = 0;
       let totalExtra : number;
 
       conceptos.forEach(({dinero, intervalo}: Concepto) => {
@@ -55,59 +49,135 @@ function App()
                totalExtra += (totalExtra + (dinero)) * 0.09 / 365;
             }
 
-            total += totalExtra;
+            totalGanancia += totalExtra;
          }
       });
 
-      setGananciaFinal(total);
+      setGananciaDiariaTotal(totalGanancia);
 
-      return <h3>{total.toFixed(2)}</h3>
+      setGananciaDiariaFinal((totalConceptos + totalGanancia) * 0.09 / 365);
+   }, [dias, conceptos]);
+
+   function manageConcepto(e: any)
+   {
+      setConceptoNuevo({
+         ...conceptoNuevo,
+         [e.target.id]: (e.target.value),
+      });
    }
 
-   // useEffect(() => {
-   //    console.log(gananciaFinal);
-   // }, [gananciaFinal]);
+   function agregarConcepto()
+   {
+      setConceptos([...conceptos, {
+         dinero: conceptoNuevo.dinero,
+         intervalo: conceptoNuevo.intervalo,
+      }]);
+   }
+
+   function eliminarConcepto(id: string)
+   {
+      setConceptos(conceptos.filter(({dinero, intervalo}: Concepto) => dinero + "-" + intervalo != id));
+
+      // setConceptos(newConceptos);
+
+      // setConceptos(conceptos.map(({dinero, intervalo}: Concepto) => {
+      //    if(dinero + "-" + intervalo == id)
+      //    {
+      //       return;
+      //    }
+         
+      //    return {
+      //       dinero,
+      //       intervalo,
+      //    };
+      // });
+
+      // setConceptos(conceptos.map((concepto: Concepto, index: number) => {
+      //    if(concepto.dinero + "-" + concepto.intervalo == id)
+      //    {
+      //       conceptos.splice(index, 1);
+      //    }
+      // }
+      // ));
+   }
 
    return (
       <div style={{display: 'flex', flexDirection: 'column'}}>
-         <div style={{display: 'flex', gap: 30, alignItems: 'center', justifyContent: 'center'}}>
-            <h1 style={{verticalAlign: 'center'}}>Dias: </h1>
+         <div style={{display: 'flex', gap: 50, justifyContent: 'center'}}>
+            <div style={{display: 'flex', gap: 20, alignItems: 'center'}}>
+               <h1 style={{verticalAlign: 'center'}}>Dias: </h1>
 
-            <input onChange={(e) => setDias(Number(e.target.value))} value={dias} style={{
-                  width: 100,
-                  height: 50,
-                  fontSize: 40,
-                  textAlign: 'center',
-                  
-               }}
-            />
+               <input onChange={(e) => setDias(Number(e.target.value))} value={dias} style={{
+                     width: 100,
+                     height: 50,
+                     fontSize: 40,
+                     textAlign: 'center',
+                  }}
+               />
+            </div>
+
+            <h1>Total: ${(totalConceptos + gananciaDiariaTotal).toFixed(2)}</h1>
          </div>
 
          <div style={{display: 'flex', gap: 30}} className="">
             <div>
                <h2>Conceptos: </h2>
 
-               {getConceptos()}
+               {conceptos.map(({dinero, intervalo}: Concepto) => <h3 key={dinero + "-" + intervalo}>${dinero} cada {intervalo == 1 ? "dia" : intervalo + " dias"}<a onClick={() => eliminarConcepto(dinero + "-" + intervalo)}style={{color: 'grey'}}> X</a></h3>)}
+
+               <br></br>
             </div>
             
             <div className="">
                <h2>Total de conceptos:</h2>
 
-               {getTotal()}
+               {<h3>${totalConceptos.toFixed(2)}</h3>}
             </div>
 
             <div className="">
-               <h2>Total ganancia Nu:</h2>
+               <h2>Total de ganancia Nu:</h2>
 
-               {getGananciaDiariaTotal()}
+               {<h3>${gananciaDiariaTotal.toFixed(2)}</h3>}
             </div>
 
             <div className="">
                <h2>Ganancia diaria final:</h2>
 
-               <h3>{gananciaFinal.toFixed(2)}</h3>
+               <h3>${gananciaDiariaFinal.toFixed(2)}</h3>
             </div>
          </div>
+
+         <div style={{display: 'flex', flexDirection: 'column', backgroundColor: 'black', borderRadius: 10, padding: '10px'}}>
+               <h3>Agregar concepto</h3>
+               
+               <div style={{display: 'flex', gap: 20, alignItems: 'center', justifyContent: 'center'}}>
+                  <h3>Cantidad: </h3>
+                  <input id="dinero" value={conceptoNuevo.dinero} onChange={(e) => manageConcepto(e)} style={{
+                        width: 110,
+                        height: 30,
+                        fontSize: 30,
+                        textAlign: 'center',
+                     }}
+                  >
+                  </input>
+               </div>
+
+               <div style={{display: 'flex', gap: 20, alignItems: 'center', justifyContent: 'center'}}>
+                  <h3>Cada cuantos dias: </h3>
+                  <input id="intervalo" value={conceptoNuevo.intervalo} onChange={(e) => manageConcepto(e)} style={{
+                        width: 80,
+                        height: 30,
+                        fontSize: 30,
+                        textAlign: 'center',
+                     }}
+                  >
+                  </input>
+               </div>
+               
+               <br></br>
+               
+               <button style={{backgroundColor: 'grey'}} onClick={() => agregarConcepto()}>Guardar</button>
+            </div>
       </div>
    );
 }
