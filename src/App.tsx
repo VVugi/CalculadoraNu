@@ -77,28 +77,6 @@ function App()
    function eliminarConcepto(id: string)
    {
       setConceptos(conceptos.filter(({dinero, intervalo}: Concepto) => dinero + "-" + intervalo != id));
-
-      // setConceptos(newConceptos);
-
-      // setConceptos(conceptos.map(({dinero, intervalo}: Concepto) => {
-      //    if(dinero + "-" + intervalo == id)
-      //    {
-      //       return;
-      //    }
-         
-      //    return {
-      //       dinero,
-      //       intervalo,
-      //    };
-      // });
-
-      // setConceptos(conceptos.map((concepto: Concepto, index: number) => {
-      //    if(concepto.dinero + "-" + concepto.intervalo == id)
-      //    {
-      //       conceptos.splice(index, 1);
-      //    }
-      // }
-      // ));
    }
 
    return (
