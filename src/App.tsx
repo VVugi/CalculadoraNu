@@ -46,7 +46,7 @@ function App()
 
             for(let i = 1; i < diasIntervalo; i++)
             {
-               totalExtra += (totalExtra + (dinero)) * 0.09 / 365;
+               totalExtra += (totalExtra + (dinero)) * 0.15 / 365;
             }
 
             totalGanancia += totalExtra;
@@ -55,7 +55,7 @@ function App()
 
       setGananciaDiariaTotal(totalGanancia);
 
-      setGananciaDiariaFinal((totalConceptos + totalGanancia) * 0.09 / 365);
+      setGananciaDiariaFinal((totalConceptos + totalGanancia) * 0.15 / 365);
    }, [dias, conceptos]);
 
    function manageConcepto(e: any)
